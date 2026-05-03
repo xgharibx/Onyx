@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Onyx Egypt reimagined as a cinematic, data-driven spatial dealership experience powered by live inventory.">
+    <meta name="theme-color" content="#04070d">
+    <title>Onyx | Beyond Mobility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="premium.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script defer src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+    <script defer src="onyx-inventory.js"></script>
+    <script defer src="app.js"></script>
+    <script defer src="premium.js"></script>
+</head>
+<body class="is-loading">
+    <div class="noise"></div>
+    <div class="screen-dim"></div>
+
+    <div class="cursor-orb" aria-hidden="true">
+        <div class="cursor-ring"></div>
+        <div class="cursor-core"></div>
+        <span class="cursor-label"></span>
+    </div>
+
+    <div id="page-shutter" aria-hidden="true">
+        <div class="shutter-panel shutter-panel--top"></div>
+        <div class="shutter-panel shutter-panel--bottom"></div>
+        <div class="shutter-center">
+            <div class="shutter-brand">ONYX</div>
+            <div class="shutter-progress" id="shutter-progress">0%</div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="#hero" class="site-nav__brand hover-target magnetic-target" data-cursor-label="Home" data-cursor-size="96">ONYX</a>
+        <div class="site-nav__links">
+            <a href="cars.html" class="hover-target magnetic-target" data-cursor-label="Cars" data-cursor-size="92">Inventory</a>
+            <a href="offers.html" class="hover-target magnetic-target" data-cursor-label="Offers" data-cursor-size="92">Offers</a>
+            <a href="compare.html" class="hover-target magnetic-target" data-cursor-label="Compare" data-cursor-size="92">Compare</a>
+            <a href="finance.html" class="hover-target magnetic-target" data-cursor-label="Tune" data-cursor-size="92">Finance</a>
+            <a href="concierge.html" class="hover-target magnetic-target" data-cursor-label="Talk" data-cursor-size="92">Concierge</a>
+            <a href="showroom.html" class="hover-target magnetic-target" data-cursor-label="Inspect" data-cursor-size="92">Showroom</a>
+        </div>
+        <div class="site-nav__actions">
+            <button id="sound-toggle" class="sound-toggle hover-target magnetic-target" type="button" aria-pressed="false" data-cursor-label="Sound" data-cursor-size="96">
+                <span class="sound-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span id="sound-state">Sound Off</span>
+            </button>
+            <a href="book.html" class="pill-button pill-button--primary hover-target magnetic-target" data-cursor-label="Book" data-cursor-size="108">Book Onyx</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero section" id="hero">
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <div class="hero-photo-stage" aria-hidden="true">
+                <img id="hero-photo-primary" alt="">
+                <img id="hero-photo-secondary" alt="">
+                <div class="hero-photo-shutter"></div>
+            </div>
+            <div class="hero-grid"></div>
+            <div class="hero-scanline" aria-hidden="true"></div>
+
+            <div class="hero-copy">
+                <p class="eyebrow reveal-item">Onyx Egypt / Live Cinematic Dealership</p>
+                <h1 class="hero-title">
+                    <span class="slice-line"><span class="slice-inner js-scramble" data-final="Beyond">Beyond</span></span>
+                    <span class="slice-line outline"><span class="slice-inner js-scramble" data-final="Mobility">Mobility</span></span>
+                </h1>
+                <p class="hero-description" id="hero-description"></p>
+                <div class="hero-actions">
+                    <a href="cars.html" class="pill-button pill-button--primary hover-target magnetic-target" data-cursor-label="Cars" data-cursor-size="104">Open Full Inventory</a>
+                    <a href="concierge.html" class="pill-button hover-target magnetic-target" data-cursor-label="Find" data-cursor-size="112">Find My Car</a>
+                    <a href="offers.html" class="pill-button hover-target magnetic-target" data-cursor-label="Deals" data-cursor-size="112">Current Offers</a>
+                </div>
+                <div class="hero-offer-strip glass reveal-item" id="hero-offer-strip"></div>
+                <div class="hero-meta" id="hero-metrics"></div>
+            </div>
+
+            <aside class="hero-rail glass reveal-item">
+                <div class="hero-rail__media">
+                    <img id="hero-rail-image" alt="">
+                </div>
+                <div class="hero-rail__meta">
+                    <p class="eyebrow">Flagship Live Selection</p>
+                    <div class="hero-rail__title" id="hero-rail-title"></div>
+                    <p class="panel-copy" id="hero-rail-copy"></p>
+                    <div class="hero-rail__chips" id="hero-rail-chips"></div>
+                    <a id="hero-rail-link" class="pill-button pill-button--primary hover-target magnetic-target" target="_blank" rel="noreferrer" data-cursor-label="Explore" data-cursor-size="116">Open Vehicle Page</a>
+                </div>
+            </aside>
+        </section>
+
+        <section class="section platform-gateway" id="platform">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">Full Onyx Platform / From A To Z</p>
+                    <h2 class="display-title">The Digital Dealership Starts Here</h2>
+                </div>
+                <p class="panel-copy">The cinematic homepage now opens into a full website: live catalog, offers, brands, model pages, compare, finance, concierge, showroom, services, trade-in, branches, about, stories, booking and contact.</p>
+            </div>
+
+            <div class="platform-gateway__grid">
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="cars.html" data-cursor-label="Cars" data-cursor-size="104"><span>01</span><strong>Live Inventory</strong><small>Search and filter every scraped Onyx vehicle.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="offers.html" data-cursor-label="Offers" data-cursor-size="104"><span>02</span><strong>Offer Board</strong><small>Price-led entry points with sample payments.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="brands.html" data-cursor-label="Brands" data-cursor-size="104"><span>03</span><strong>Brand Universe</strong><small>Onyx authorized brands as clear launch paths.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="compare.html" data-cursor-label="Compare" data-cursor-size="104"><span>04</span><strong>Compare Studio</strong><small>Radar and matrix decisions for up to four cars.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="finance.html" data-cursor-label="Finance" data-cursor-size="104"><span>05</span><strong>Finance Lab</strong><small>Deposit, term, rate and ownership cost controls.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="concierge.html" data-cursor-label="Find" data-cursor-size="104"><span>06</span><strong>Concierge</strong><small>Rule-based recommendations from real Onyx specs.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="showroom.html" data-cursor-label="Inspect" data-cursor-size="104"><span>07</span><strong>Spatial Showroom</strong><small>Official photos, dimensions and inspection modes.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="services.html" data-cursor-label="Service" data-cursor-size="104"><span>08</span><strong>Ownership Hub</strong><small>Trade-in, used cars, installments and company plans.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="trade-in.html" data-cursor-label="Trade" data-cursor-size="104"><span>09</span><strong>Trade-In Studio</strong><small>Estimate upgrade gap before the branch visit.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="book.html" data-cursor-label="Book" data-cursor-size="104"><span>10</span><strong>Booking Desk</strong><small>Prepare a structured Onyx visit request.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="branches.html" data-cursor-label="Branch" data-cursor-size="104"><span>11</span><strong>Branches</strong><small>Cairo, Delta, Ismailia and expansion story points.</small></a>
+                <a class="platform-gateway__card glass hover-target magnetic-target" href="about.html" data-cursor-label="Legacy" data-cursor-size="104"><span>12</span><strong>Legacy</strong><small>Onyx history, values, founders and milestones.</small></a>
+            </div>
+        </section>
+
+        <section class="fleet section" id="fleet">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">The Fleet / Infinite 3D Cylinder</p>
+                    <h2 class="display-title">Drag Through Onyx's Live Catalog</h2>
+                </div>
+                <p class="panel-copy">This carousel is built from the current Onyx inventory feed. Pull it sideways and the vehicles orbit on a curved cylinder path while the active card locks into a data-rich detail rail.</p>
+            </div>
+
+            <div class="fleet-carousel hover-target cursor-target" id="fleet-carousel" data-cursor-label="Drag" data-cursor-size="122">
+                <div class="fleet-status">
+                    <span>Infinite 3D Fleet</span>
+                    <span id="fleet-counter">01 / 12</span>
+                </div>
+                <div class="fleet-stage" id="fleet-stage"></div>
+            </div>
+
+            <div class="fleet-detail glass reveal-item">
+                <div class="fleet-detail__block">
+                    <div class="fleet-detail__brand" id="fleet-active-brand"></div>
+                    <h3 class="fleet-detail__title" id="fleet-active-title"></h3>
+                    <div class="fleet-detail__price" id="fleet-active-price"></div>
+                    <p class="fleet-detail__copy" id="fleet-active-copy"></p>
+                    <div class="detail-chips" id="fleet-active-chips"></div>
+                </div>
+                <div class="fleet-detail__block detail-stats" id="fleet-active-stats"></div>
+                <div class="fleet-detail__block">
+                    <p class="eyebrow">Live Detail Feed</p>
+                    <p class="fleet-detail__copy" id="fleet-active-note"></p>
+                    <div class="detail-chips">
+                        <a id="fleet-active-link" class="pill-button pill-button--primary hover-target magnetic-target" target="_blank" rel="noreferrer" data-cursor-label="Launch" data-cursor-size="116">Inspect On Onyx</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="concierge">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">AI Concierge / Glass Interface</p>
+                    <h2 class="display-title">Speak To The Onyx Intelligence</h2>
+                </div>
+                <p class="panel-copy">A voice-assistant styled interface that surfaces live cars, live prices and actual Onyx specs. The interaction layer stays cinematic, but the data underneath is real dealership inventory.</p>
+            </div>
+
+            <div class="concierge-layout">
+                <section class="concierge-chat glass reveal-item">
+                    <div class="voice-chip">
+                        <div class="audio-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                        <span>Voice Route Online</span>
+                    </div>
+                    <p class="concierge-intro">Speak to the Onyx Intelligence to find your perfect drive.</p>
+                    <div class="concierge-chips" id="concierge-chips"></div>
+                    <div class="chat-thread" id="concierge-thread"></div>
+                </section>
+
+                <aside class="concierge-feature glass reveal-item">
+                    <div class="concierge-feature__media">
+                        <img id="concierge-image" alt="">
+                    </div>
+                    <h3 class="concierge-feature__title" id="concierge-title"></h3>
+                    <p class="panel-copy" id="concierge-copy"></p>
+                    <div class="detail-chips" id="concierge-specs"></div>
+                    <a id="concierge-link" class="pill-button pill-button--primary hover-target magnetic-target" target="_blank" rel="noreferrer" data-cursor-label="Open" data-cursor-size="108">Open Vehicle</a>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="showroom">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">Spatial Showroom / WebXR Ready</p>
+                    <h2 class="display-title">Project The Vehicle Into Your Driveway</h2>
+                </div>
+                <p class="panel-copy">A future-facing AR scanner treatment for the Onyx catalog, built to suggest scale, stance and body proportions before a client ever reaches the branch.</p>
+            </div>
+
+            <div class="showroom-layout">
+                <section class="showroom-scanner glass reveal-item">
+                    <div class="scanner-rings"></div>
+                    <div class="scanner-grid"></div>
+                    <div class="scanner-beam"></div>
+                    <img id="showroom-image" alt="">
+                    <div class="scanner-badge" id="showroom-badge">WebXR Ready</div>
+                </section>
+
+                <aside class="showroom-panel glass reveal-item">
+                    <div class="showroom-selector" id="showroom-selector"></div>
+                    <h3 class="showroom-title" id="showroom-title"></h3>
+                    <p class="showroom-copy" id="showroom-copy"></p>
+                    <div class="showroom-stats" id="showroom-stats"></div>
+                    <a id="showroom-link" class="pill-button pill-button--primary hover-target magnetic-target" target="_blank" rel="noreferrer" data-cursor-label="Project" data-cursor-size="118">Launch AR Story</a>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="finance">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">Dynamic Finance Engine</p>
+                    <h2 class="display-title">Dial In Down Payment And Horizon</h2>
+                </div>
+                <p class="panel-copy">This finance block converts live Onyx pricing into a speedometer-style control surface. Twist the deposit and term dials, and the odometer-style outputs recalculate instantly.</p>
+            </div>
+
+            <div class="finance-layout">
+                <section class="finance-config glass reveal-item">
+                    <div class="finance-models" id="finance-models"></div>
+                    <div class="dial-grid">
+                        <article class="dial-card glass">
+                            <div class="dial hover-target cursor-target" data-type="downPayment" data-min="10" data-max="70" data-step="1" data-cursor-label="Adjust" data-cursor-size="112">
+                                <svg viewBox="0 0 160 160" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="dialGradientA" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#9fd1ff"></stop>
+                                            <stop offset="100%" stop-color="#6ef6dc"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <path class="dial-track"></path>
+                                    <path class="dial-progress" stroke="url(#dialGradientA)"></path>
+                                </svg>
+                                <div class="dial-content">
+                                    <div class="dial-label">Down Payment</div>
+                                    <div class="dial-value" data-role="value">35%</div>
+                                    <div class="dial-subvalue" data-role="subvalue"></div>
+                                </div>
+                                <div class="dial-knob"></div>
+                            </div>
+                        </article>
+
+                        <article class="dial-card glass">
+                            <div class="dial hover-target cursor-target" data-type="months" data-min="12" data-max="84" data-step="6" data-cursor-label="Adjust" data-cursor-size="112">
+                                <svg viewBox="0 0 160 160" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="dialGradientB" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#ddcfad"></stop>
+                                            <stop offset="100%" stop-color="#9fd1ff"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <path class="dial-track"></path>
+                                    <path class="dial-progress" stroke="url(#dialGradientB)"></path>
+                                </svg>
+                                <div class="dial-content">
+                                    <div class="dial-label">Repayment Window</div>
+                                    <div class="dial-value" data-role="value">60</div>
+                                    <div class="dial-subvalue" data-role="subvalue"></div>
+                                </div>
+                                <div class="dial-knob"></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <aside class="finance-output glass reveal-item">
+                    <div class="finance-selected">
+                        <div class="finance-selected__media">
+                            <img id="finance-image" alt="">
+                        </div>
+                        <h3 class="finance-selected__title" id="finance-title"></h3>
+                        <p class="finance-summary" id="finance-summary"></p>
+                    </div>
+                    <div class="odometer-block">
+                        <span class="odometer-label">Estimated Monthly</span>
+                        <div class="odometer" id="finance-monthly"></div>
+                    </div>
+                    <div class="odometer-block">
+                        <span class="odometer-label">Down Payment</span>
+                        <div class="odometer" id="finance-down-total"></div>
+                    </div>
+                    <div class="odometer-block">
+                        <span class="odometer-label">Financed Amount</span>
+                        <div class="odometer" id="finance-financed-total"></div>
+                    </div>
+                    <div class="finance-facts" id="finance-facts"></div>
+                    <a id="finance-link" class="pill-button pill-button--primary hover-target magnetic-target" target="_blank" rel="noreferrer" data-cursor-label="Reserve" data-cursor-size="116">Reserve This Configuration</a>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section legacy" id="legacy">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">Legacy / Pinned Timeline</p>
+                    <h2 class="display-title">Since 1993</h2>
+                </div>
+                <p class="panel-copy">As the years advance, the left rail stays pinned while the right side scrolls through Onyx's shift from local boutique retailer to a premium, multi-brand dealership system with a spatial digital future.</p>
+            </div>
+
+            <div class="legacy-shell">
+                <aside class="legacy-left glass reveal-item">
+                    <div class="legacy-active-year" id="legacy-active-year">1993</div>
+                    <h3 class="legacy-active-title" id="legacy-active-title"></h3>
+                    <p class="legacy-copy" id="legacy-active-copy"></p>
+                    <div class="detail-chips" id="legacy-active-meta"></div>
+                </aside>
+                <div class="legacy-right" id="legacy-right"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid glass reveal-item">
+            <div>
+                <div class="footer-brandmark">Onyx</div>
+                <p class="footer-copy" id="footer-copy"></p>
+                <div class="footer-brands" id="footer-brands"></div>
+            </div>
+            <div class="footer-links">
+                <a class="footer-link hover-target magnetic-target" href="cars.html" data-cursor-label="Cars" data-cursor-size="96">Inventory</a>
+                <a class="footer-link hover-target magnetic-target" href="offers.html" data-cursor-label="Offers" data-cursor-size="96">Offers</a>
+                <a class="footer-link hover-target magnetic-target" href="brands.html" data-cursor-label="Brands" data-cursor-size="96">Brands</a>
+                <a class="footer-link hover-target magnetic-target" href="compare.html" data-cursor-label="Compare" data-cursor-size="96">Compare</a>
+                <a class="footer-link hover-target magnetic-target" href="finance.html" data-cursor-label="Tune" data-cursor-size="96">Finance</a>
+                <a class="footer-link hover-target magnetic-target" href="showroom.html" data-cursor-label="Inspect" data-cursor-size="96">Showroom</a>
+                <a class="footer-link hover-target magnetic-target" href="services.html" data-cursor-label="Service" data-cursor-size="96">Services</a>
+                <a class="footer-link hover-target magnetic-target" href="contact.html" data-cursor-label="Contact" data-cursor-size="96">Contact</a>
+                <a class="footer-link hover-target magnetic-target" href="cars.html" data-cursor-label="Open" data-cursor-size="96">Live Onyx Catalog</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
